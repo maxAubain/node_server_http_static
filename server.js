@@ -16,6 +16,7 @@ function serveStaticFile(res, path, contentType, responseCode = 200) {
 
 const server = http.createServer((req, res) => {
   const path = req.url.replace(/\/?(?:\?.*)?$/, '').toLowerCase()
+  // regex expression in replace method removes any query string chars
 
   switch (path) {
     case '':
