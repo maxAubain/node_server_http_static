@@ -2,11 +2,13 @@ const http = require('http')
 const fs = require('fs')
 const port = process.env.PORT || 3000
 
-function serveStaticFile(res, path, contentType, responseCode = 200) {
+function serveStaticFile(res, path, contentType, responseCode = 200)
+// default response code is 200: success, unless passed a different value
+{
   fs.readFile(__dirname + path, (err, data) => {
     if (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' })
-      return res.end('500 - Internal Error')
+      return res.end('500 - Internal Error') // passes error text if data not found
     }
     res.writeHead(responseCode, { 'Content-Type': 'text/plain' })
     res.end(data)
@@ -18,16 +20,16 @@ const server = http.createServer((req, res) => {
 
   switch (path) {
     case '':
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('Hello world!')
+      serveStaticFile(res, '/public/home.html', 'text/html')
       break
     case '/about':
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('About')
+      serveStaticFile(res, '/public/about.html', 'text/html')
+      break
+    case '/img/logo.png':
+      serveStaticFile(res, '/public/img/logo.png', 'image/png')
       break
     default: // default response when no valid path is given
-      res.writeHead(404, { 'Content-Type': 'text/plain' })
-      res.end('Not Found')
+      serveStaticFile(res, '/public/404.html', 'text/html', 404)
       break
   }
 })
