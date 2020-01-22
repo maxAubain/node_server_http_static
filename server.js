@@ -7,6 +7,7 @@ function serveStaticFile(res, path, contentType, responseCode = 200) {
     if (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' })
       return res.end('500 - Internal Error')
+      // default response when no valid path is given
     }
     res.writeHead(responseCode, contentType)
     res.end(data)
@@ -23,10 +24,10 @@ const server = http.createServer((req, res) => {
     case '/about':
       serveStaticFile(res, '/public/page/about.html', 'text/html')
       break
-    case '/img/icon_PR.png':
-      serveStaticFile(res, '/public/img/icon_PR.png', 'image/png')
+    case '/img/icon_pr.png':
+      serveStaticFile(res, '/public/img/icon_pr.png', 'image/png')
       break
-    default: // default response when no valid path is given
+    default:
       serveStaticFile(res, '/public/404.html', 'text/html', 404)
       break
   }
