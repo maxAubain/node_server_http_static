@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
       serveStaticFile(res, '/public/img/icon_pr.png', 'image/png')
       break
     default:
-      serveStaticFile(res, '/public/404.html', 'text/html', 404)
+      serveStaticFile(res, '/public/page/404.html', 'text/html', 404)
       break
   }
 })
