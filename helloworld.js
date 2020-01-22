@@ -1,5 +1,17 @@
 const http = require('http')
+const fs = require('fs')
 const port = process.env.PORT || 3000
+
+function serveStaticFile(res, path, contentType, responseCode = 200) {
+  fs.readFile(__dirname + path, (err, data) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' })
+      return res.end('500 - Internal Error')
+    }
+    res.writeHead(responseCode, { 'Content-Type': 'text/plain' })
+    res.end(data)
+  })
+}
 
 const server = http.createServer((req, res) => {
   const path = req.url.replace(/\/?(?:\?.*)?$/, '').toLowerCase() // regular-expression (regex) replacement
@@ -11,7 +23,7 @@ const server = http.createServer((req, res) => {
       break
     case '/about':
       res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('About') // actual response
+      res.end('About')
       break
     default: // default response when no valid path is given
       res.writeHead(404, { 'Content-Type': 'text/plain' })
